@@ -1,0 +1,32 @@
+{% extends "main.html" %}
+
+{% block content %}
+<table>
+    <thead>
+    <tr>
+        <th>Номер новости</th>
+        <th>Стоимость</th>
+        <th>Новость создана</th>
+        <th>Статус</th>
+    </tr>
+    </thead>
+
+    {% for order in orders %}
+    <tr>
+        <th>{{ order.id }}</th>
+        <th>{{ order.cost }}</th>
+        <th>{{ order.time_in|time:"H:i" }}</th>
+        <th>{% if not order.complete %}
+             Новость еще не создана.
+            {% elif order.time_out is None %}
+            <button><a href="{% url 'take_order' order.id %}"> Создать </a></button>
+            {% else %}
+            Новость создана {{ order.time_out|time:"H:i" }}
+            {% endif %}
+        </th>
+
+    </tr>
+    {% endfor %}
+</table>
+    
+{% endblock %}
